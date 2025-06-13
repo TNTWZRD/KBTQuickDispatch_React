@@ -1,5 +1,4 @@
 import { API_URL, DOMAIN } from "./config";
-
 const DEBUG = true
 
 export const backendOnline = async () => {
