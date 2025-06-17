@@ -1,24 +1,36 @@
 import { Link } from "react-router-dom";
-import { useCookies } from 'react-cookie';
-import { logoutApi } from "../apis/authentication";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../utilities/AuthContext";
 
 const Navbar = () => {
-    const [cookies, removeCookie] = useCookies(['jwt']);
-    const navigate = useNavigate();
-    const loggedIn = (cookies.jwt)? true : false;
 
+    const navigate = useNavigate();
+    const { isAuthenticated, user, logout, deleteAccount } = useAuth();
+    
     const handleLogout = async () => {
-        let logout = await logoutApi(cookies.jwt);
-        if (!logout[0]) {
-            console.error('Logout failed:', logout[1]);
-            return;
+        try {
+            await logout();
+            console.log('Logout successful');
+            navigate('/');
+        } catch (error) {
+            console.error('Logout failed:', error);
         }
-        console.log('Logout successful');
-        removeCookie('jwt');
-        removeCookie('user_name');
-        navigate('/');
     }
+
+    const handleDeleteAccount = async () => {
+        try {
+            const [success, error] = await deleteAccount();
+            if (success) {
+                console.log('Account deleted successfully');
+                navigate('/');
+            } else {
+                console.error('Delete account failed:', error);
+            }
+        } catch (error) {
+            console.error('Delete account failed:', error);
+        }
+    }
+
 
     return (
         <>
@@ -33,13 +45,14 @@ const Navbar = () => {
                     </div>
 
                     <div className="flex space-x-4 ms-auto me-4">
-                        <p className="">{cookies.user_name}</p>
+                        <p className="">{user?.name || user?.username || ''}</p>
                     </div>
 
                     <div className="">
-                        {loggedIn && <button onClick={handleLogout} className="logout bg-red-300 hover:bg-red-500 rounded px-2 py-1.5">Logout</button> }
-                        {!loggedIn && <Link to="/login"><button className="logout bg-green-300 hover:bg-green-500 rounded px-2 py-1.5">Login</button> </Link> }
-                        {!loggedIn && <Link to="/register"><button className="logout bg-yellow-300 hover:bg-yellow-500 rounded px-2 py-1.5">Register</button> </Link> }
+                        {isAuthenticated && <button onClick={handleLogout} className="logout bg-yellow-300 me-2 hover:bg-yellow-500 rounded px-2 py-1.5">Logout</button> }
+                        {isAuthenticated && <button onClick={handleDeleteAccount} className="delete bg-red-300 hover:bg-red-500 rounded px-2 py-1.5">Delete Account</button> }
+                        {!isAuthenticated && <Link to="/login"><button className="login bg-green-300 hover:bg-green-500 rounded px-2 py-1.5">Login</button> </Link> }
+                        {!isAuthenticated && <Link to="/register"><button className="register bg-yellow-300 hover:bg-yellow-500 rounded px-2 py-1.5">Register</button> </Link> }
                     </div>
                 
                 </div>

@@ -1,12 +1,11 @@
 import { Link } from 'react-router-dom';
-import { registerApi, loginApi } from '../apis/authentication';
-import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { validateEmail, validatePassword, validateUsername, validatePhoneNumber } from '../utilities/validations';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import PropTypes from 'prop-types';
+import { useAuth } from '../utilities/AuthContext';
 
 const DEBUG = true
 
@@ -23,20 +22,20 @@ const intialErrorsState = {
 const Authentication = ({pageType}) => {
 
     const navigate = useNavigate();
-    const [cookies, setCookie] = useCookies([]);
-    
+    const { isAuthenticated, login, register, loading } = useAuth();
+
+    // Redirect if already authenticated
     useEffect(() => {
-    if (cookies.jwt) {
-        DEBUG && console.log('User is already logged in, redirecting to home page');
-            navigate('/'); // Redirect to home page if user is already logged in
-            return null; // Prevent rendering the authentication page
+        if (isAuthenticated) {
+            DEBUG && console.log('User is already logged in, redirecting to home page');
+            navigate('/');
         }
-    }, [cookies.jwt, navigate]);
+    }, [isAuthenticated, navigate]);
 
     
     const [errors, setErrors] = useState(intialErrorsState);
     
-    const [login, setLogin] = useState('');
+    const [loginField, setLoginField] = useState('');
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
@@ -61,7 +60,7 @@ const Authentication = ({pageType}) => {
      };
     
     const handleLoginChange = (e) => { 
-        setLogin(e.target.value)
+        setLoginField(e.target.value)
      };
     
     const handlePasswordChange = (e) => { 
@@ -93,7 +92,7 @@ const Authentication = ({pageType}) => {
                 isValid = false;
             }
         } else if (pageType === PageType.LOGIN) {
-            if (!validateEmail(login) && !validateUsername(login)) {
+            if (!validateEmail(loginField) && !validateUsername(loginField)) {
                 newErrors.login = 'Login must be a valid email or username';
                 isValid = false;
             }
@@ -108,42 +107,39 @@ const Authentication = ({pageType}) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        let error, success = null
+        let success, error = null
+        
         if (!validateForm()) {
             console.log('Form is invalid, cannot submit');
             return;
         }
 
-        if (pageType === PageType.LOGIN) {
-            [success, error] = await loginApi({
-                user: {
-                    login, 
-                    password
-                }});
-        }
-        if (pageType === PageType.REGISTER) {
-            [success, error] = await registerApi({
-                user: {
+        try {
+            if (pageType === PageType.LOGIN) {
+                [success, error] = await login(loginField, password);
+            } else if (pageType === PageType.REGISTER) {
+                const userData = {user: {
                     username, 
                     email, 
                     name, 
                     phone_number: phoneNumber, 
-                    password
-                }});
-        }
-        if (error) {
-            console.log(error);
-            setErrors(prevErrors => ({...prevErrors, api: error}));
-        }
-        if (success) {
-            const message = success.message || 'Operation successful';
-            const user = success.data.user || {};
-            const roles = success.data.roles || [];
-            const authToken = success.auth || '';
-            DEBUG && console.log(`Success: ${message},\n User: ${JSON.stringify(user)},\n Roles: ${roles},\n Auth Token: ${authToken}`);
-            setCookie('jwt', authToken);
-            setCookie('user_name', user.name || user.username || '');
-            navigate('/'); // Redirect to home page after successful login/registration
+                    password}
+                };
+                [success, error] = await register(userData);
+            }
+            
+            if (error) {
+                console.log(error);
+                setErrors(prevErrors => ({...prevErrors, api: error}));
+            }
+            
+            if (success) {
+                DEBUG && console.log('Authentication successful');
+                navigate('/'); // AuthContext will handle the redirect in useEffect
+            }
+        } catch (err) {
+            console.error('Authentication error:', err);
+            setErrors(prevErrors => ({...prevErrors, api: 'An unexpected error occurred'}));
         }
     }
 
@@ -173,7 +169,7 @@ const Authentication = ({pageType}) => {
                         placeholder="Username/Email"
                         className='py-2 border border-grey-500 rounded px-3'
                         onChange={handleLoginChange}
-                        value={login} // Ensure controlled input
+                        value={loginField} // Ensure controlled input
                     />
                     {errors.login && <label className='text-sm text-red-600' name="loginError">{errors.login}</label>}
                 </div>
@@ -239,8 +235,13 @@ const Authentication = ({pageType}) => {
 
                 <button 
                     type='submit'
-                    className='bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700'>
-                    {(pageType === PageType.LOGIN) ? 'Login' : 'Register'}
+                    disabled={loading}
+                    className={`py-2 rounded text-white ${loading 
+                        ? 'bg-gray-400 cursor-not-allowed' 
+                        : 'bg-indigo-600 hover:bg-indigo-700'}`}>
+                    {loading 
+                        ? 'Processing...' 
+                        : (pageType === PageType.LOGIN) ? 'Login' : 'Register'}
                 </button>
 
             </form>

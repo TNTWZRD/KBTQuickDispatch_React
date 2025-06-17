@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client'
 import { StrictMode } from 'react'
 import App from './App.jsx'
 import Authentication, { PageType } from './pages/Autentication.jsx'
+import { AuthProvider } from './utilities/AuthContext.jsx'
 
  const router = createBrowserRouter([
   {
@@ -24,7 +25,9 @@ import Authentication, { PageType } from './pages/Autentication.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <CookiesProvider defaultSetOptions={{path: '/'}}>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </CookiesProvider>
   </StrictMode>,
 )
