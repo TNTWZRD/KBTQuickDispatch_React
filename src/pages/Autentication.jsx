@@ -146,105 +146,117 @@ const Authentication = ({pageType}) => {
   return (
     <>
     <Navbar />
-    <div className="bg-white">
+    <div className="bg-dashboard-bg min-h-screen">
         <div className="mx-auto max-w-7xl py-8 px-4 sm:px-6 lg:px-8">
             
-            {errors.api && <p className='text-sm text-red-600 border border-red rounded p-2' name="apiError">{errors.api}</p>}
-            
-            <h3 className="text-2xl font-bold">
-                {(pageType === PageType.LOGIN ) ? 'Login to your account' : 'Register for a new account'}
-            </h3>
-            <span className="mt-4 text-sm text-gray-600">
-                { pageType === PageType.LOGIN && <p>Dont have an account? <Link to='/register' className='text-black-600 underline'>Register </Link> </p>}
-                { pageType === PageType.REGISTER && <p>Already Have an Account? <Link to='/login' className='text-black-600 underline'>Login</Link> </p>}
-            </span>
+            <div className="max-w-md mx-auto theme-card">
+                <div className="theme-card-body">
+                    
+                    {errors.api && (
+                        <div className='text-sm text-error-600 bg-error-50 border border-error-200 rounded-lg p-3 mb-4' name="apiError">
+                            {errors.api}
+                        </div>
+                    )}
+                    
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                        {(pageType === PageType.LOGIN ) ? 'Login to your account' : 'Register for a new account'}
+                    </h3>
+                    <div className="mt-4 text-sm text-gray-600 mb-6">
+                        { pageType === PageType.LOGIN && (
+                            <p>Don't have an account? <Link to='/register' className='theme-primary hover:text-primary-700 font-medium'>Register</Link></p>
+                        )}
+                        { pageType === PageType.REGISTER && (
+                            <p>Already have an account? <Link to='/login' className='theme-primary hover:text-primary-700 font-medium'>Login</Link></p>
+                        )}
+                    </div>
 
+                    <form onSubmit={handleSubmit} className="space-y-4 theme-fade-in">
+                    {(pageType === PageType.LOGIN) ? 
+                        <div className="space-y-1">
+                            <input 
+                                name="login"
+                                type='text'
+                                placeholder="Username/Email"
+                                className='theme-input'
+                                onChange={handleLoginChange}
+                                value={loginField}
+                            />
+                            {errors.login && <span className='text-sm theme-error' name="loginError">{errors.login}</span>}
+                        </div>
+                        :
+                        <>
+                            <div className="space-y-1">
+                                <input
+                                    name="username"
+                                    type='text'
+                                    placeholder="Username"
+                                    className='theme-input'
+                                    onChange={handleUsernameChange}
+                                    value={username}
+                                />
+                                {errors.username && <span className='text-sm theme-error' name="usernameError">{errors.username}</span>}
+                            </div>
+                            <div className="space-y-1">
+                                <input
+                                    name="email"
+                                    type='email'
+                                    placeholder="Email"
+                                    className='theme-input'
+                                    onChange={handleEmailChange}
+                                    value={email}
+                                />
+                                {errors.email && <span className='text-sm theme-error' name="emailError">{errors.email}</span>}
+                            </div>
+                            <div className="space-y-1">
+                                <input
+                                    name="name"
+                                    type='text'
+                                    placeholder="Name"
+                                    className='theme-input'
+                                    onChange={handleNameChange}
+                                    value={name}
+                                />
+                                {errors.name && <span className='text-sm theme-error' name="nameError">{errors.name}</span>}
+                            </div>
+                            <div className="space-y-1">
+                                <input
+                                    name="phonenumber"
+                                    type='phone'
+                                    placeholder="(000) 555-5555"
+                                    className='theme-input'
+                                    onChange={handlePhoneNumberChange}
+                                    value={phoneNumber}
+                                />
+                                {errors.phoneNumber && <span className='text-sm theme-error' name="phoneNumberError">{errors.phoneNumber}</span>}
+                            </div>
+                        </>
+                        }
+                        <div className="space-y-1">
+                            <input
+                                name="password"
+                                type='password'
+                                placeholder="Password"
+                                className='theme-input'
+                                onChange={handlePasswordChange}
+                                value={password}
+                            />
+                            {errors.password && <span className='text-sm theme-error' name="passwordError">{errors.password}</span>}
+                        </div>
 
-            <form onSubmit={handleSubmit} className="mt-10 max-w-96 flex flex-col gap-8">
-            {(pageType === PageType.LOGIN) ? 
-                <div className="flex flex-col">
-                    <input 
-                        name="login"
-                        type='text'
-                        placeholder="Username/Email"
-                        className='py-2 border border-grey-500 rounded px-3'
-                        onChange={handleLoginChange}
-                        value={loginField} // Ensure controlled input
-                    />
-                    {errors.login && <label className='text-sm text-red-600' name="loginError">{errors.login}</label>}
+                        <button 
+                            type='submit'
+                            disabled={loading}
+                            className={`theme-btn w-full mt-6 ${loading 
+                                ? 'bg-gray-400 cursor-not-allowed' 
+                                : 'theme-btn-primary'}`}>
+                            {loading 
+                                ? 'Processing...' 
+                                : (pageType === PageType.LOGIN) ? 'Login' : 'Register'}
+                        </button>
+
+                    </form>
                 </div>
-                :
-                <>
-                    <div className="flex flex-col">
-                        <input
-                            name="username"
-                            type='text'
-                            placeholder="Username"
-                            className='py-2 border border-grey-500 rounded px-3'
-                            onChange={handleUsernameChange}
-                            value={username} // Ensure controlled input
-                        />
-                        {errors.username && <label className='text-sm text-red-600' name="usernameError">{errors.username}</label>}
-                    </div>
-                    <div className="flex flex-col">
-                        <input
-                            name="email"
-                            type='email'
-                            placeholder="Email"
-                            className='py-2 border border-grey-500 rounded px-3'
-                            onChange={handleEmailChange}
-                            value={email} // Ensure controlled input
-                        />
-                        <label className='text-sm text-red-600' name="emailError">{errors.email}</label>
-                    </div>
-                    <div className="flex flex-col">
-                        <input
-                            name="name"
-                            type='text'
-                            placeholder="Name"
-                            className='py-2 border border-grey-500 rounded px-3'
-                            onChange={handleNameChange}
-                            value={name} // Ensure controlled input
-                        />
-                        <label className='text-sm text-red-600' name="nameError">{errors.name}</label>
-                    </div>
-                    <div className="flex flex-col">
-                        <input
-                            name="phonenumber"
-                            type='phone'
-                            placeholder="(000) 555-5555"
-                            className='py-2 border border-grey-500 rounded px-3'
-                            onChange={handlePhoneNumberChange}
-                            value={phoneNumber} // Ensure controlled input
-                        />
-                        <label className='text-sm text-red-600' name="phoneNumberError">{errors.phoneNumber}</label>
-                    </div>
-                </>
-                }
-                <div className="flex flex-col">
-                    <input
-                        name="password"
-                        type='password'
-                        placeholder="urPa$$w0rd"
-                        className='py-2 border border-grey-500 rounded px-3'
-                        onChange={handlePasswordChange}
-                        value={password} // Ensure controlled input
-                    />
-                    <label className='text-sm text-red-600' name="passwordError">{errors.password}</label>
-                </div>
-
-                <button 
-                    type='submit'
-                    disabled={loading}
-                    className={`py-2 rounded text-white ${loading 
-                        ? 'bg-gray-400 cursor-not-allowed' 
-                        : 'bg-indigo-600 hover:bg-indigo-700'}`}>
-                    {loading 
-                        ? 'Processing...' 
-                        : (pageType === PageType.LOGIN) ? 'Login' : 'Register'}
-                </button>
-
-            </form>
+            </div>
         </div>
     </div>
     <Footer />

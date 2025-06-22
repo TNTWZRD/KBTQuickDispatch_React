@@ -137,6 +137,14 @@ export function AuthProvider({ children }) {
         }
     };
 
+    const updateUser = (updatedUserData) => {
+        setUser(updatedUserData);
+        // Update the cookie with new user data
+        const expires = new Date();
+        expires.setDate(expires.getDate() + 7);
+        setCookie('user_data', JSON.stringify(updatedUserData), { path: '/', expires });
+    };
+
     const value = {
         isAuthenticated,
         user,
@@ -145,7 +153,8 @@ export function AuthProvider({ children }) {
         login,
         register,
         logout,
-        deleteAccount
+        deleteAccount,
+        updateUser
     };
 
     return (
