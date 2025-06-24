@@ -1,14 +1,12 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../utilities/AuthContext';
-import { useTheme } from '../utilities/theme';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
 const DashboardLayout = ({ children }) => {
     const { user } = useAuth();
     const location = useLocation();
-    const { isDark } = useTheme();
 
     // Navigation items based on user role
     const getNavigationItems = () => {
@@ -59,14 +57,14 @@ const DashboardLayout = ({ children }) => {
     const navigationItems = getNavigationItems();
 
     return (
-        <div className="min-h-screen bg-dashboard-bg">
+        <div className="min-h-screen bg-gray-50">
             <Navbar />
             
             <div className="flex">
                 {/* Sidebar */}
-                <div className="w-64 theme-nav shadow-lg min-h-screen">
+                <div className="w-64 bg-white shadow-md min-h-screen">
                     <div className="p-6">
-                        <h2 className="text-lg font-semibold text-sidebar-text mb-6">
+                        <h2 className="text-lg font-semibold text-gray-800 mb-6">
                             {user?.name || user?.username || 'User'} Dashboard
                         </h2>
                         
@@ -75,8 +73,10 @@ const DashboardLayout = ({ children }) => {
                                 <Link
                                     key={item.path}
                                     to={item.path}
-                                    className={`theme-nav-item rounded-md ${
-                                        location.pathname === item.path ? 'active' : ''
+                                    className={`flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                                        location.pathname === item.path
+                                            ? 'bg-blue-100 text-blue-700'
+                                            : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                                     }`}
                                 >
                                     <span className="mr-3 text-lg">{item.icon}</span>
@@ -86,9 +86,9 @@ const DashboardLayout = ({ children }) => {
                         </nav>
                         
                         {/* User Role Badge */}
-                        <div className="mt-8 p-3 bg-sidebar-bg/20 rounded-md border border-sidebar-text/20">
-                            <p className="text-xs text-sidebar-text/70 uppercase tracking-wide">Current Role</p>
-                            <p className="text-sm font-medium text-sidebar-text">
+                        <div className="mt-8 p-3 bg-gray-100 rounded-md">
+                            <p className="text-xs text-gray-500 uppercase tracking-wide">Current Role</p>
+                            <p className="text-sm font-medium text-gray-900">
                                 {getUserRoleDisplay(user?.role)}
                             </p>
                         </div>

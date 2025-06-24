@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAuth } from '../utilities/AuthContext';
-import { getStatusColor } from '../utilities/theme';
 import DashboardLayout from '../components/DashboardLayout';
 
 const Dashboard = () => {
@@ -10,17 +9,16 @@ const Dashboard = () => {
         if (!user) return null;
 
         const userRole = typeof user.role === 'string' ? parseInt(user.role) : user.role;
-        
-        // Admin Dashboard
+          // Admin Dashboard
         if ((userRole & 16) === 16) {
             return (
-                <div className="space-y-6 theme-fade-in">
+                <div className="space-y-6">
                     <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <StatCard title="Total Users" value="0" color="primary" />
-                        <StatCard title="Active Drivers" value="0" color="success" />
-                        <StatCard title="System Status" value="Online" color="success" />
-                        <StatCard title="Daily Calls" value="0" color="secondary" />
+                        <StatCard title="Total Users" value="0" color="blue" />
+                        <StatCard title="Active Drivers" value="0" color="green" />
+                        <StatCard title="System Status" value="Online" color="green" />
+                        <StatCard title="Daily Calls" value="0" color="purple" />
                     </div>
                     <QuickActions role="admin" />
                 </div>
@@ -30,12 +28,12 @@ const Dashboard = () => {
         // Manager Dashboard
         if ((userRole & 4) >= 4) {
             return (
-                <div className="space-y-6 theme-fade-in">
+                <div className="space-y-6">
                     <h1 className="text-3xl font-bold text-gray-900">Manager Dashboard</h1>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <StatCard title="Active Drivers" value="0" color="success" />
-                        <StatCard title="Today's Calls" value="0" color="primary" />
-                        <StatCard title="Revenue Today" value="$0.00" color="secondary" />
+                        <StatCard title="Active Drivers" value="0" color="green" />
+                        <StatCard title="Today's Calls" value="0" color="blue" />
+                        <StatCard title="Revenue Today" value="$0.00" color="purple" />
                     </div>
                     <QuickActions role="manager" />
                 </div>
@@ -45,12 +43,12 @@ const Dashboard = () => {
         // Dispatcher Dashboard
         if ((userRole & 2) === 2) {
             return (
-                <div className="space-y-6 theme-fade-in">
+                <div className="space-y-6">
                     <h1 className="text-3xl font-bold text-gray-900">Dispatcher Dashboard</h1>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <StatCard title="Pending Calls" value="0" color="warning" />
-                        <StatCard title="Active Calls" value="0" color="success" />
-                        <StatCard title="Available Drivers" value="0" color="primary" />
+                        <StatCard title="Pending Calls" value="0" color="yellow" />
+                        <StatCard title="Active Calls" value="0" color="green" />
+                        <StatCard title="Available Drivers" value="0" color="blue" />
                     </div>
                     <QuickActions role="dispatcher" />
                 </div>
@@ -60,12 +58,12 @@ const Dashboard = () => {
         // Driver Dashboard
         if ((userRole & 1) === 1) {
             return (
-                <div className="space-y-6 theme-fade-in">
+                <div className="space-y-6">
                     <h1 className="text-3xl font-bold text-gray-900">Driver Dashboard</h1>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <StatCard title="Shift Status" value="Off Duty" color="error" />
-                        <StatCard title="Today's Calls" value="0" color="primary" />
-                        <StatCard title="Today's Earnings" value="$0.00" color="success" />
+                        <StatCard title="Shift Status" value="Off Duty" color="red" />
+                        <StatCard title="Today's Calls" value="0" color="blue" />
+                        <StatCard title="Today's Earnings" value="$0.00" color="green" />
                     </div>
                     <QuickActions role="driver" />
                 </div>
@@ -74,17 +72,15 @@ const Dashboard = () => {
         
         // Default User Dashboard
         return (
-            <div className="space-y-6 theme-fade-in">
+            <div className="space-y-6">
                 <h1 className="text-3xl font-bold text-gray-900">Welcome to QuickDispatch</h1>
-                <div className="theme-card">
-                    <div className="theme-card-body">
-                        <p className="text-gray-600">
-                            You're successfully logged in to QuickDispatch. Your account is set up but you don't have any special roles assigned yet.
-                        </p>
-                        <p className="text-gray-600 mt-4">
-                            Contact your administrator to get the appropriate roles assigned to access more features.
-                        </p>
-                    </div>
+                <div className="bg-white p-6 rounded-lg shadow">
+                    <p className="text-gray-600">
+                        You're successfully logged in to QuickDispatch. Your account is set up but you don't have any special roles assigned yet.
+                    </p>
+                    <p className="text-gray-600 mt-4">
+                        Contact your administrator to get the appropriate roles assigned to access more features.
+                    </p>
                 </div>
             </div>
         );
@@ -100,34 +96,24 @@ const Dashboard = () => {
 // Stat Card Component
 const StatCard = ({ title, value, color }) => {
     const colorClasses = {
-        primary: 'bg-primary-500',
-        secondary: 'bg-secondary-500',
-        success: 'bg-success-500',
-        warning: 'bg-warning-500',
-        error: 'bg-error-500'
-    };
-
-    const iconBgClasses = {
-        primary: 'bg-primary-100',
-        secondary: 'bg-secondary-100', 
-        success: 'bg-success-100',
-        warning: 'bg-warning-100',
-        error: 'bg-error-100'
+        blue: 'bg-blue-500',
+        green: 'bg-green-500',
+        yellow: 'bg-yellow-500',
+        red: 'bg-red-500',
+        purple: 'bg-purple-500'
     };
 
     return (
-        <div className="theme-card hover:shadow-md transition-shadow">
-            <div className="theme-card-body">
+        <div className="bg-white overflow-hidden shadow rounded-lg">
+            <div className="p-5">
                 <div className="flex items-center">
                     <div className="flex-shrink-0">
-                        <div className={`h-8 w-8 rounded-md ${colorClasses[color]} flex items-center justify-center`}>
-                            <div className={`h-4 w-4 rounded-sm ${iconBgClasses[color]}`}></div>
-                        </div>
+                        <div className={`h-8 w-8 rounded-md ${colorClasses[color]}`}></div>
                     </div>
                     <div className="ml-5 w-0 flex-1">
                         <dl>
                             <dt className="text-sm font-medium text-gray-500 truncate">{title}</dt>
-                            <dd className={`text-lg font-bold text-${color}-600`}>{value}</dd>
+                            <dd className="text-lg font-medium text-gray-900">{value}</dd>
                         </dl>
                     </div>
                 </div>
@@ -169,21 +155,17 @@ const QuickActions = ({ role }) => {
         }
     };
 
-    const actions = getActions();
-
-    if (actions.length === 0) return null;
+    const actions = getActions();    if (actions.length === 0) return null;
 
     return (
-        <div className="theme-card">
-            <div className="theme-card-header">
-                <h3 className="text-lg leading-6 font-medium text-gray-900">Quick Actions</h3>
-            </div>
-            <div className="theme-card-body">
+        <div className="bg-white shadow rounded-lg">
+            <div className="px-4 py-5 sm:p-6">
+                <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">Quick Actions</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {actions.map((action, index) => (
                         <button
                             key={index}
-                            className="p-4 border border-dashboard-border rounded-lg hover:bg-gray-50 text-left transition-all hover:shadow-md theme-focus-visible"
+                            className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-left transition-colors"
                             onClick={() => {
                                 // For now, we'll just log the action
                                 console.log(`Navigate to: ${action.action}`);

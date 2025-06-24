@@ -7,7 +7,7 @@ import DashboardLayout from '../components/DashboardLayout';
 const ProfileForm = ({ profileData, setProfileData, handleProfileSubmit, loading }) => (
     <form onSubmit={handleProfileSubmit} className="space-y-6">
         <div>
-            <label htmlFor="name" className="theme-label">
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                 Full Name
             </label>
             <input
@@ -15,13 +15,13 @@ const ProfileForm = ({ profileData, setProfileData, handleProfileSubmit, loading
                 id="name"
                 value={profileData.name}
                 onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
-                className="theme-input"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 required
             />
         </div>
 
         <div>
-            <label htmlFor="email" className="theme-label">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email Address
             </label>
             <input
@@ -29,13 +29,13 @@ const ProfileForm = ({ profileData, setProfileData, handleProfileSubmit, loading
                 id="email"
                 value={profileData.email}
                 onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
-                className="theme-input"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 required
             />
         </div>
 
         <div>
-            <label htmlFor="username" className="theme-label">
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700">
                 Username
             </label>
             <input
@@ -43,13 +43,13 @@ const ProfileForm = ({ profileData, setProfileData, handleProfileSubmit, loading
                 id="username"
                 value={profileData.username}
                 onChange={(e) => setProfileData({ ...profileData, username: e.target.value })}
-                className="theme-input"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 required
             />
         </div>
 
         <div>
-            <label htmlFor="phone_number" className="theme-label">
+            <label htmlFor="phone_number" className="block text-sm font-medium text-gray-700">
                 Phone Number
             </label>
             <input
@@ -57,15 +57,13 @@ const ProfileForm = ({ profileData, setProfileData, handleProfileSubmit, loading
                 id="phone_number"
                 value={profileData.phone_number}
                 onChange={(e) => setProfileData({ ...profileData, phone_number: e.target.value })}
-                className="theme-input"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             />
-        </div>
-
-        <div>
+        </div>        <div>
             <button
                 type="submit"
                 disabled={loading}
-                className="theme-btn theme-btn-primary w-full disabled:opacity-50"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
             >
                 {loading ? 'Updating...' : 'Update Profile'}
             </button>
@@ -81,10 +79,9 @@ const PreferencesForm = ({ preferences, setPreferences, handlePreferencesSubmit,
             <div className="flex items-center">
                 <input
                     type="checkbox"
-                    id="darkmode"
-                    checked={preferences.darkmode}
+                    id="darkmode"                    checked={preferences.darkmode}
                     onChange={(e) => setPreferences({ ...preferences, darkmode: e.target.checked })}
-                    className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                 />
                 <label htmlFor="darkmode" className="ml-2 block text-sm text-gray-900">
                     Enable Dark Mode
@@ -93,13 +90,11 @@ const PreferencesForm = ({ preferences, setPreferences, handlePreferencesSubmit,
             <p className="mt-2 text-sm text-gray-500">
                 Toggle between light and dark themes for better viewing experience
             </p>
-        </div>
-
-        <div>
+        </div>        <div>
             <button
                 type="submit"
                 disabled={loading}
-                className="theme-btn theme-btn-primary w-full disabled:opacity-50"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
             >
                 {loading ? 'Updating...' : 'Update Preferences'}
             </button>
@@ -109,9 +104,8 @@ const PreferencesForm = ({ preferences, setPreferences, handlePreferencesSubmit,
 
 // Password form component - moved outside to prevent re-creation
 const PasswordForm = ({ passwordData, setPasswordData, handlePasswordSubmit, loading }) => (
-    <form onSubmit={handlePasswordSubmit} className="space-y-6">
-        <div>
-            <label htmlFor="current_password" className="theme-label">
+    <form onSubmit={handlePasswordSubmit} className="space-y-6">        <div>
+            <label htmlFor="current_password" className="block text-sm font-medium text-gray-700">
                 Current Password
             </label>
             <input
@@ -119,13 +113,13 @@ const PasswordForm = ({ passwordData, setPasswordData, handlePasswordSubmit, loa
                 id="current_password"
                 value={passwordData.current_password}
                 onChange={(e) => setPasswordData({ ...passwordData, current_password: e.target.value })}
-                className="theme-input"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 required
             />
         </div>
 
         <div>
-            <label htmlFor="password" className="theme-label">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 New Password
             </label>
             <input
@@ -133,14 +127,14 @@ const PasswordForm = ({ passwordData, setPasswordData, handlePasswordSubmit, loa
                 id="password"
                 value={passwordData.password}
                 onChange={(e) => setPasswordData({ ...passwordData, password: e.target.value })}
-                className="theme-input"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 required
                 minLength="6"
             />
         </div>
 
         <div>
-            <label htmlFor="password_confirmation" className="theme-label">
+            <label htmlFor="password_confirmation" className="block text-sm font-medium text-gray-700">
                 Confirm New Password
             </label>
             <input
@@ -148,17 +142,15 @@ const PasswordForm = ({ passwordData, setPasswordData, handlePasswordSubmit, loa
                 id="password_confirmation"
                 value={passwordData.password_confirmation}
                 onChange={(e) => setPasswordData({ ...passwordData, password_confirmation: e.target.value })}
-                className="theme-input"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 required
                 minLength="6"
             />
-        </div>
-
-        <div>
+        </div>        <div>
             <button
                 type="submit"
                 disabled={loading}
-                className="theme-btn theme-btn-primary w-full disabled:opacity-50"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
             >
                 {loading ? 'Changing...' : 'Change Password'}
             </button>
@@ -276,13 +268,12 @@ const UserProfile = () => {
 
     // Tab navigation component
     const TabNavigation = () => (
-        <div className="border-b border-dashboard-border mb-8">
-            <nav className="-mb-px flex space-x-8">
+        <div className="border-b border-dashboard-border mb-8">            <nav className="-mb-px flex space-x-8">
                 <button
                     onClick={() => setActiveTab('profile')}
-                    className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors theme-focus-visible ${
+                    className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
                         activeTab === 'profile'
-                            ? 'border-primary-500 text-primary-600'
+                            ? 'border-blue-500 text-blue-600'
                             : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                     }`}
                 >
@@ -290,9 +281,9 @@ const UserProfile = () => {
                 </button>
                 <button
                     onClick={() => setActiveTab('preferences')}
-                    className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors theme-focus-visible ${
+                    className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
                         activeTab === 'preferences'
-                            ? 'border-primary-500 text-primary-600'
+                            ? 'border-blue-500 text-blue-600'
                             : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                     }`}
                 >
@@ -300,9 +291,9 @@ const UserProfile = () => {
                 </button>
                 <button
                     onClick={() => setActiveTab('password')}
-                    className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors theme-focus-visible ${
+                    className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
                         activeTab === 'password'
-                            ? 'border-primary-500 text-primary-600'
+                            ? 'border-blue-500 text-blue-600'
                             : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                     }`}
                 >
@@ -312,9 +303,8 @@ const UserProfile = () => {
         </div>
     );
 
-    return (
-        <DashboardLayout>
-            <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8 theme-fade-in">
+    return (        <DashboardLayout>
+            <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
             <div className="md:grid md:grid-cols-3 md:gap-6">
                 <div className="md:col-span-1">
                     <div className="px-4 sm:px-0">
@@ -325,14 +315,13 @@ const UserProfile = () => {
                     </div>
                 </div>
                 <div className="mt-5 md:mt-0 md:col-span-2">
-                    <div className="theme-card">
-                        <div className="theme-card-body space-y-6">
-                            {/* Message display */}
-                            {message.text && (
+                    <div className="bg-white shadow rounded-lg">
+                        <div className="px-4 py-5 sm:p-6 space-y-6">
+                            {/* Message display */}                            {message.text && (
                                 <div className={`rounded-md p-4 ${
                                     message.type === 'success' 
-                                        ? 'bg-success-50 text-success-700 border border-success-200' 
-                                        : 'bg-error-50 text-error-700 border border-error-200'
+                                        ? 'bg-green-50 text-green-700 border border-green-200' 
+                                        : 'bg-red-50 text-red-700 border border-red-200'
                                 }`}>
                                     {message.text}
                                 </div>

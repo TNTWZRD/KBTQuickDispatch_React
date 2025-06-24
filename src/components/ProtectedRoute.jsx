@@ -3,15 +3,13 @@ import { Navigate } from 'react-router-dom';
 import { useAuth } from '../utilities/AuthContext';
 
 const ProtectedRoute = ({ children, requiredRole = null }) => {
-    const { isAuthenticated, user, loading } = useAuth();
-
-    if (loading) {
+    const { isAuthenticated, user, loading } = useAuth();    if (loading) {
         return (
-            <div className="flex justify-center items-center min-h-screen bg-dashboard-bg">
-                <div className="theme-card">
-                    <div className="theme-card-body">
+            <div className="flex justify-center items-center min-h-screen bg-gray-50">
+                <div className="bg-white shadow rounded-lg">
+                    <div className="px-4 py-5 sm:p-6">
                         <div className="flex items-center space-x-3">
-                            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary-500"></div>
+                            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
                             <div className="text-lg font-medium text-gray-900">Loading...</div>
                         </div>
                     </div>
