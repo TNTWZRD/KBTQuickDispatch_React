@@ -7,8 +7,11 @@ import App from './App.jsx'
 import Authentication, { PageType } from './pages/Autentication.jsx'
 import UserProfile from './pages/UserProfile.jsx'
 import Dashboard from './pages/Dashboard.jsx'
+import Users from './pages/Users.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 import { AuthProvider } from './utilities/AuthContext.jsx'
+import Admin from './pages/Admin.jsx'
+import DashboardLayout from './components/DashboardLayout.jsx'
 
  const router = createBrowserRouter([
   {
@@ -32,10 +35,80 @@ import { AuthProvider } from './utilities/AuthContext.jsx'
     ),
   },
   {
+    path: '/users-manage',
+    element: (
+      <ProtectedRoute>
+        <DashboardLayout>
+          <Users />
+        </DashboardLayout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/admin',
+    element: (
+      <ProtectedRoute>
+        <DashboardLayout>
+          <Admin />
+        </DashboardLayout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/shifts',
+    element: (
+      <ProtectedRoute>
+        <DashboardLayout>
+          <h1 className="text-3xl font-bold text-gray-900">My Shifts</h1>
+        </DashboardLayout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/my-calls',
+    element: (
+      <ProtectedRoute>
+        <DashboardLayout>
+          <h1 className="text-3xl font-bold text-gray-900">My Calls</h1>
+        </DashboardLayout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/call-board',
+    element: (
+      <ProtectedRoute>
+        <DashboardLayout>
+          <h1 className="text-3xl font-bold text-gray-900">Call Board</h1>
+        </DashboardLayout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/drivers',
+    element: (
+      <ProtectedRoute>
+        <DashboardLayout>
+          <h1 className="text-3xl font-bold text-gray-900">Drivers</h1>
+        </DashboardLayout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/reports',
+    element: (
+      <ProtectedRoute>
+        <DashboardLayout>
+          <h1 className="text-3xl font-bold text-gray-900">reports</h1>
+        </DashboardLayout>
+      </ProtectedRoute>
+    ),
+  },
+  {
     path: '/profile',
     element: (
       <ProtectedRoute>
-        <UserProfile />
+          <UserProfile />
       </ProtectedRoute>
     ),
   }
