@@ -159,7 +159,7 @@ const PasswordForm = ({ passwordData, setPasswordData, handlePasswordSubmit, loa
 );
 
 const UserProfile = () => {
-    const { user, updateUser } = useAuth();
+    const { user, updateUser, deleteAccount } = useAuth();
     const [activeTab, setActiveTab] = useState('profile');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState({ type: '', text: '' });
@@ -266,6 +266,19 @@ const UserProfile = () => {
         setLoading(false);
     };
 
+    const handleDeleteAccount = async () => {
+        if (!window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+            return;
+        }
+        try {
+            await deleteAccount();
+            console.log('Logout successful');
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
+    
+    }
+
     // Tab navigation component
     const TabNavigation = () => (
         <div className="border-b border-dashboard-border mb-8">            <nav className="-mb-px flex space-x-8">
@@ -303,7 +316,7 @@ const UserProfile = () => {
         </div>
     );
 
-    return (        <DashboardLayout>
+    return (
             <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
             <div className="md:grid md:grid-cols-3 md:gap-6">
                 <div className="md:col-span-1">
@@ -330,12 +343,17 @@ const UserProfile = () => {
                             <TabNavigation />
 
                             {activeTab === 'profile' && (
+                                <>
                                 <ProfileForm 
                                     profileData={profileData}
                                     setProfileData={setProfileData}
                                     handleProfileSubmit={handleProfileSubmit}
                                     loading={loading}
                                 />
+                                <button onClick={handleDeleteAccount} className="text-red-600 hover:text-red-800 mt-4">
+                                    {loading ? 'Deleting...' : 'Delete Account'}
+                                </button>
+                                </>
                             )}
                             {activeTab === 'preferences' && (
                                 <PreferencesForm 
@@ -358,7 +376,6 @@ const UserProfile = () => {
                 </div>
             </div>
             </div>
-        </DashboardLayout>
     );
 };
 

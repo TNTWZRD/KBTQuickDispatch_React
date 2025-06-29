@@ -17,20 +17,6 @@ const Navbar = () => {
         }
     }
 
-    // const handleDeleteAccount = async () => {
-    //     try {
-    //         const [success, error] = await deleteAccount();
-    //         if (success) {
-    //             console.log('Account deleted successfully');
-    //             navigate('/');
-    //         } else {
-    //             console.error('Delete account failed:', error);
-    //         }
-    //     } catch (error) {
-    //         console.error('Delete account failed:', error);
-    //     }
-    // }
-
 
     return (
         <>

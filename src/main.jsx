@@ -30,7 +30,9 @@ import DashboardLayout from './components/DashboardLayout.jsx'
     path: '/dashboard',
     element: (
       <ProtectedRoute>
-        <Dashboard />
+        <DashboardLayout>
+          <Dashboard />
+        </DashboardLayout>
       </ProtectedRoute>
     ),
   },
@@ -108,7 +110,19 @@ import DashboardLayout from './components/DashboardLayout.jsx'
     path: '/profile',
     element: (
       <ProtectedRoute>
+        <DashboardLayout>
           <UserProfile />
+        </DashboardLayout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/vehicles',
+    element: (
+      <ProtectedRoute>
+        <DashboardLayout>
+          <h1 className="text-3xl font-bold text-gray-900">Vehicles</h1>
+        </DashboardLayout>
       </ProtectedRoute>
     ),
   }

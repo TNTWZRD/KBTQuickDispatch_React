@@ -6,7 +6,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 
 const DashboardLayout = ({ children }) => {
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
     const location = useLocation();
     
     const user_h = new UserHelper(user);
@@ -33,7 +33,8 @@ const DashboardLayout = ({ children }) => {
             if (user_h.isDispatcher()) { // dispatcher role
                 baseItems.push(
                     { name: 'Call Board', path: '/call-board', icon: '📋' },
-                    { name: 'Drivers', path: '/drivers', icon: '👥' }
+                    { name: 'Drivers', path: '/drivers', icon: '👥' },
+                    { name: 'Vehicles', path: '/vehicles', icon: '🚕' }
                 );
             }
             
@@ -64,6 +65,15 @@ const DashboardLayout = ({ children }) => {
         setMenuExpanded(!menuExpanded);
     }
 
+     const handleLogout = async () => {
+        try {
+            await logout();
+            console.log('Logout successful');
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
+    }
+
     return (
         <div className="min-h-screen bg-gray-50">
             <div className="hidden md:block">
@@ -77,7 +87,7 @@ const DashboardLayout = ({ children }) => {
                         <h2 className="text-lg font-semibold text-gray-800 mb-6 hidden md:block">
                             {user_h.namePlural() || user_h.userNamePlural() || 'User'} Dashboard
                         </h2>
-                        <button className="md:hidden bg-yellow-200 mb-5 py-2 px-5 rounded" onClick={handleMenuExpand}>
+                        <button className="md:hidden bg-yellow-200 mb-5 p-2 px-4 rounded" onClick={handleMenuExpand}>
                             |||
                         </button>
                         
@@ -86,7 +96,7 @@ const DashboardLayout = ({ children }) => {
                                 <Link
                                     key={item.path}
                                     to={item.path}
-                                    className={`flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                                    className={`flex items-center p-2 text-sm font-medium rounded-md transition-colors ${
                                         location.pathname === item.path
                                             ? 'bg-blue-100 text-blue-700'
                                             : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
@@ -98,6 +108,11 @@ const DashboardLayout = ({ children }) => {
                                     </span>
                                 </Link>
                             ))}
+                            <span className={`${(menuExpanded)? '': 'hidden'} md:hidden text-sm text-gray-500 mt-2`}>
+                                <button onClick={handleLogout} className="bg-yellow-300 hover:bg-yellow-500 rounded px-2 py-1.5">
+                                    Logout
+                                </button>
+                            </span>
                         </nav>
                         
                         {/* User Role Badge */}

@@ -15,8 +15,8 @@ const Dashboard = () => {
           // Admin Dashboard
         if ((user.roles?.includes('admin') || user.roles?.includes('superadmin'))) {
             statCards.push(
-                <div className="bg-white p-6 rounded-lg shadow">
-                    Admin
+                <div className="bg-white p-2 rounded-lg shadow">
+                    <span className="fs-3 text-bold" >Admin</span>
                     <StatCard key="total-users" title="Total Users" value="0" color="blue" />,
                     <StatCard key="active-drivers" title="Active Drivers" value="0" color="green" />,
                     <StatCard key="daily-calls" title="Daily Calls" value="0" color="purple" />
@@ -28,8 +28,8 @@ const Dashboard = () => {
         // Manager Dashboard
         if ((user.roles?.includes('manager'))) {
             statCards.push(
-                <div className="bg-white p-6 rounded-lg shadow">
-                    Manager
+                <div className="bg-white p-2 rounded-lg shadow">
+                    <span className="fs-3 text-bold" >Manager</span>
                     <StatCard key="active-drivers" title="Active Drivers" value="0" color="green" />,
                     <StatCard key="todays-calls" title="Today's Calls" value="0" color="blue" />,
                     <StatCard key="revenue-today" title="Revenue Today" value="$0.00" color="purple" />
@@ -41,8 +41,8 @@ const Dashboard = () => {
         // Dispatcher Dashboard
         if ((user.roles?.includes('dispatcher'))) {
             statCards.push(
-                <div className="bg-white p-6 rounded-lg shadow">
-                    Dispatcher
+                <div className="bg-white p-2 rounded-lg shadow">
+                    <span className="fs-3 text-bold" >Dispatcher</span>
                     <StatCard key="pending-calls" title="Pending Calls" value="0" color="yellow" />,
                     <StatCard key="active-calls" title="Active Calls" value="0" color="green" />,
                     <StatCard key="available-drivers" title="Available Drivers" value="0" color="blue" />,
@@ -54,8 +54,8 @@ const Dashboard = () => {
         // Driver Dashboard
         if (user.roles?.includes('driver')) {
             statCards.push(
-                <div className="bg-white p-6 rounded-lg shadow">
-                    Driver
+                <div className="bg-white p-2 rounded-lg shadow">
+                    <span className="fs-3 text-bold" >Driver</span>
                     <StatCard key="shift-status" title="Shift Status" value="Off Duty" color="red" />,
                     <StatCard key="todays-calls" title="Today's Calls" value="0" color="blue" />,
                     <StatCard key="todays-earnings" title="Today's Earnings" value="$0.00" color="green" />
@@ -94,9 +94,7 @@ const Dashboard = () => {
     };
 
     return (
-        <DashboardLayout>
-            {getDashboardContent()}
-        </DashboardLayout>
+        getDashboardContent()
     );
 };
 
@@ -158,7 +156,8 @@ const QuickActions = ({ role }) => {
                 return [
                     { title: 'View Reports', description: 'Access management reports', action: '/reports' },
                     { title: 'Manage Drivers', description: 'View driver performance', action: '/drivers' },
-                    { title: 'Call Board', description: 'Monitor call activity', action: '/call-board' }
+                    { title: 'Call Board', description: 'Monitor call activity', action: '/call-board' },
+                    { title: 'Add Driver', description: 'Register new drivers', action: '/drivers/new' }
                 ];
             case 'dispatcher':
                 return [
@@ -168,9 +167,7 @@ const QuickActions = ({ role }) => {
                 ];
             case 'driver':
                 return [
-                    { title: 'Start Shift', description: 'Begin your driving shift', action: '/shift/start' },
-                    { title: 'My Calls', description: 'View assigned calls', action: '/my-calls' },
-                    { title: 'Update Status', description: 'Change availability status', action: '/status' }
+                    { title: 'My Calls', description: 'View assigned calls', action: '/my-calls' }
                 ];
             default:
                 return [];
