@@ -18,7 +18,8 @@ const DriverList = () => {
 
     useEffect(() => {
         fetchDrivers();
-    })
+        // eslint-disable-next-line
+    }, []);
 
     return (
         <div className="mx-auto py-8 px-4 w-full sm:px-6 lg:px-8 max-w-4xl">
