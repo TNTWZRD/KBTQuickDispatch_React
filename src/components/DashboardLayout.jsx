@@ -19,8 +19,7 @@ const DashboardLayout = ({ children }) => {
         ];
 
   
-        if (user !== null && user?.roles) {
-            console.log('User Roles:', user.roles);    
+        if (user !== null && user?.roles) { 
             // Add driver-specific items
             if (user_h.isDriver()) { // driver role
                 baseItems.push(
@@ -54,7 +53,6 @@ const DashboardLayout = ({ children }) => {
             }
         }
 
-        console.log('Navigation Items:', baseItems);
         return baseItems;
     };
 

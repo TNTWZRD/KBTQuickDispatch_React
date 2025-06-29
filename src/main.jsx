@@ -12,6 +12,7 @@ import ProtectedRoute from './components/ProtectedRoute.jsx'
 import { AuthProvider } from './utilities/AuthContext.jsx'
 import Admin from './pages/Admin.jsx'
 import DashboardLayout from './components/DashboardLayout.jsx'
+import Drivers from './pages/Drivers.jsx'
 
  const router = createBrowserRouter([
   {
@@ -91,7 +92,7 @@ import DashboardLayout from './components/DashboardLayout.jsx'
     element: (
       <ProtectedRoute>
         <DashboardLayout>
-          <h1 className="text-3xl font-bold text-gray-900">Drivers</h1>
+          <Drivers />
         </DashboardLayout>
       </ProtectedRoute>
     ),
