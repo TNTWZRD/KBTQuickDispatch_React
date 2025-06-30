@@ -4,7 +4,7 @@ import { useAuth } from "../../utilities/AuthContext";
 
 const DriverList = () => {
 
-    const {user, jwt} = useAuth();
+    const {jwt} = useAuth();
     const [drivers, setDrivers] = useState();
 
     const fetchDrivers = async () => {
@@ -18,7 +18,7 @@ const DriverList = () => {
 
     useEffect(() => {
         fetchDrivers();
-        // eslint-disable-next-line
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
