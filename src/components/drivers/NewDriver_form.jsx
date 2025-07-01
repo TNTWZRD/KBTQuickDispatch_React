@@ -1,21 +1,89 @@
-const NewDriverForm = () => {
+import React, { useState } from 'react';
+import { useAuth } from '../../utilities/AuthContext';
+import UserHelper from '../../utilities/UserHelper';
+
+const NewDriverForm = ({onSubmit}) => {
+
+        // eslint-disable-next-line no-unused-vars
+        const { user } = useAuth();
+    
+        const [formData, setFormData] = useState({
+            name: '',
+            phone_number: '',
+            status: 'Active', // Default to 'Active' if not provided
+        });
+    
+        const handleChange = (e) => {
+            const { name, value } = e.target;
+            setFormData((prev) => ({
+                ...prev,
+                [name]: value,
+            }));
+        };
+    
+        const handleSubmit = (e) => {
+            e.preventDefault();
+            if (onSubmit) {
+                onSubmit(formData);
+            }
+        };
+    
     return (
-        <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-            <h1 className="text-2xl font-bold mb-6">Add New Driver</h1>
-            <form>
-                {/* Form fields for adding a new driver */}
-                <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700">Driver Name</label>
-                    <input type="text" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2" />
+         <form onSubmit={handleSubmit} style={{ maxWidth: 400, margin: '0 auto' }}>
+            <h2>New Driver</h2>
+            <div style={{ marginBottom: 12 }}>
+                <label>
+                    Name:
+                    <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                        style={{ width: '100%', backgroundColor: "white", borderRadius: '4px', padding: '8px' }}
+                    />
+                </label>
+            </div>
+            <div style={{ marginBottom: 12 }}>
+                <label>
+                    Phone Number:
+                    <input
+                        type="phone"
+                        name="phone_number"
+                        value={formData.phone_number}
+                        onChange={handleChange}
+                        required
+                        style={{ width: '100%', backgroundColor: "white", borderRadius: '4px', padding: '8px' }}
+                    />
+                </label>
+            </div>
+            <div style={{ marginBottom: 12 }}>
+                <label>Status:</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
+                    <label>
+                        <input
+                            type="radio"
+                            name="status"
+                            value="Active"
+                            checked={formData.status === "Active"}
+                            onChange={handleChange}
+                        />
+                        Active
+                    </label>
+                    <label>
+                        <input
+                            type="radio"
+                            name="status"
+                            value="Inactive"
+                            checked={formData.status === "Inactive"}
+                            onChange={handleChange}
+                        />
+                        Inactive
+                    </label>
                 </div>
-                <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700">License Number</label>
-                    <input type="text" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2" />
-                </div>
-                {/* Add more fields as necessary */}
-                <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Add Driver</button>
-            </form>
-        </div>
+            </div>
+            <button type="submit" className="p-3 rounded bg-yellow-400 hover:bg-yellow-600">Create Driver</button>
+        </form>
     );
 }
 

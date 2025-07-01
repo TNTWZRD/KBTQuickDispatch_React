@@ -1,11 +1,14 @@
-function Modal({ onClose, children }) {
+function Modal({ onClose, children, title }) {
   return (
-    <div className="modal-overlay rounded bg-gray-200 p-6" style={{'position': 'absolute'}} onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close-button p-2 px-3 mb-2 bg-gray-100 rounded" onClick={onClose}>
-          &times;
-        </button>
-        {children}
+    <div className="top-3 right-3 left-3 bottom-3" style={{'position': 'absolute'}} onClick={onClose}>
+      <div className="modal-backdrop fixed inset-0 bg-black opacity-50 l-0 r-0 b-0 t-0" onClick={onClose}></div>
+      <div className="modal-container fixed inset-0 flex items-center justify-center">
+        <div className="modal-content bg-gray-100 rounded-lg shadow-lg p-6 w-full max-w-2xl mx-2 md:mx-5" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-header flex justify-between items-center mb-4">
+            <span onClick={onClose}>&times;</span><h2 className="text-xl font-semibold">{title}</h2>
+          </div>
+          {children}
+        </div>
       </div>
     </div>
   );

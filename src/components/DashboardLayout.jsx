@@ -46,7 +46,7 @@ const DashboardLayout = ({ children }) => {
             }
             
             // Add admin-specific items
-            if (user_h.isAdmin()) { // admin role
+            if (user_h.isOwner()) { // admin role
                 baseItems.push(
                     { name: 'System Settings', path: '/admin', icon: '🔧' }
                 );
@@ -125,7 +125,7 @@ const DashboardLayout = ({ children }) => {
 
                 {/* Main Content */}
                 <div className="flex-1 flex flex-col" onClick={() => setMenuExpanded(false)}>
-                    <main className="flex-1 p-2 md:p-4 lg:p-6">
+                    <main className="flex-1 p-1 md:p-4 lg:p-6">
                         {children}
                     </main>
                 </div>

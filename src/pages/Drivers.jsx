@@ -13,7 +13,20 @@ const Drivers = () => {
         return <div className="text-center text-red-500">You must be logged in to manage drivers.</div>;
     }
 
+    const handleNewDriverSubmit = async (driverData) => {
+        setShowNewDriverModal(false);
+        console.log("New driver data submitted:", driverData);
+        
+    }
+
     return (
+        <>
+        {showNewDriverModal && (
+            <Modal onClose={() => setShowNewDriverModal(false)}>
+                <NewDriverForm onSubmit={handleNewDriverSubmit}/>
+                {/* <h1 className="text-2xl font-bold mb-6">Add New Driver</h1> */}
+            </Modal>
+        )}
         <div className="max-w-4xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
             <h1 className="text-2xl font-bold text-gray-900">Manage Drivers</h1>
             <div className="flex flex-col mt-4">
@@ -22,17 +35,12 @@ const Drivers = () => {
                     Add New Driver
                 </button>
 
-                {showNewDriverModal && (
-                    <Modal onClose={() => setShowNewDriverModal(false)}>
-                        <NewDriverForm />
-                        {/* <h1 className="text-2xl font-bold mb-6">Add New Driver</h1> */}
-                    </Modal>
-                )}
 
                 <DriverList />
                 
             </div>
         </div>
+        </>
     );
 }
 export default Drivers;
