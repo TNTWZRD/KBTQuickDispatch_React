@@ -80,7 +80,7 @@ const DashboardLayout = ({ children }) => {
             
             <div className="flex">
                 {/* Sidebar */}
-                <div className="sm:w-50 md:w-45 lg:w-64 bg-white shadow-md min-h-screen">
+                <div className="md:w-59 lg:w-64 bg-white shadow-md min-h-screen">
                     <div className="p-2 md:p-4 lg:p-6">
                         <h2 className="text-lg font-semibold text-gray-800 mb-6 hidden md:block">
                             {user_h.namePlural() || user_h.userNamePlural() || 'User'} Dashboard
