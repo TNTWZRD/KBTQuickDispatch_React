@@ -57,31 +57,6 @@ const NewDriverForm = ({onSubmit}) => {
                     />
                 </label>
             </div>
-            <div style={{ marginBottom: 12 }}>
-                <label>Status:</label>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
-                    <label>
-                        <input
-                            type="radio"
-                            name="status"
-                            value="Active"
-                            checked={formData.status === "Active"}
-                            onChange={handleChange}
-                        />
-                        Active
-                    </label>
-                    <label>
-                        <input
-                            type="radio"
-                            name="status"
-                            value="Inactive"
-                            checked={formData.status === "Inactive"}
-                            onChange={handleChange}
-                        />
-                        Inactive
-                    </label>
-                </div>
-            </div>
             <button type="submit" className="p-3 rounded bg-yellow-400 hover:bg-yellow-600">Create Driver</button>
         </form>
     );

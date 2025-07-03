@@ -5,6 +5,7 @@ import { getRoles } from '../utilities/userUtils';
 import { getUsers } from '../apis/management';
 import Modal from '../components/Modal';
 import EditUserForm from '../components/users/EditUser_form';
+import { deleteUser, updateUser } from '../apis/user';
 
 const Users = () => {
 
@@ -12,8 +13,10 @@ const Users = () => {
   const user_h = new UserHelper(user);
   const [users, setUsers] = useState([]);
 
-  const [showEditUserModel, setShowNewDriverModal] = useState(false);
-  const [editUserObject, setEditUserObject] = useState(null);
+  const [editUserModel, setEditUserModel] = useState({
+    show: false,
+    user: null
+  });
 
   const fetchUsers = async () => {
     try {
@@ -34,14 +37,35 @@ const Users = () => {
 
 
   const handleUpdateUserForm = async (userData) => {
-    alert("Update user form submitted with data: " + JSON.stringify(userData));
+    setEditUserModel({
+      show: false,
+      user: null
+    });
+    console.log("Updating user:", userData);
+    const [data, error] = await updateUser(jwt, editUserModel.user.id, userData);
+    if (error) {
+      console.error("Error updating user:", error);
+      fetchUsers(); // Optionally refetch users to get the latest data
+      return;
+    }
+    console.log("User updated successfully:", data);
+    fetchUsers(); // Refetch users to get the latest data
+    // Optionally, you can refetch the users or update the state directly
   }
 
   const handleDeleteUser = async (userToDelete) => {
-    setShowNewDriverModal(false);
-    setEditUserObject(null);
+    setEditUserModel({
+      show: false,
+      user: null
+    });
     console.log("Deleting user:", userToDelete);
-
+    const [data, error] = await deleteUser(jwt, userToDelete.id);
+    if (error) {
+      console.error("Error deleting user:", error);
+      return;
+    }
+    console.log("User deleted successfully:", data);
+    fetchUsers(); // Refetch users to get the latest data
   }
 
 
@@ -55,9 +79,9 @@ const Users = () => {
 
   return (
     <div>
-      {showEditUserModel && (
-          <Modal onClose={() => setShowNewDriverModal(false)} title={`Edit: ${editUserObject.name}`}>
-              <EditUserForm user={editUserObject} onSubmit={handleUpdateUserForm} onDelete={handleDeleteUser}/>
+      {editUserModel.show && (
+          <Modal onClose={() => setEditUserModel({ show: false, user: null})} title={`Edit: ${editUserModel.user.name}`}>
+              <EditUserForm user={editUserModel.user} onSubmit={handleUpdateUserForm} onDelete={handleDeleteUser}/>
           </Modal>
       )}
       <span className='text-xl font-large p-2 mb-4'>User Management</span>
@@ -71,7 +95,7 @@ const Users = () => {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {users != null && users.map((thisUser) => (
-            <tr key={thisUser.id} onClick={()=>{setEditUserObject(thisUser); setShowNewDriverModal(true)}}>
+            <tr key={thisUser.id} onClick={()=>{setEditUserModel({ show: true, user: thisUser })}}>
             {console.log("User:", thisUser)}
             {console.log("User roles ", thisUser.name, ': ', getRoles(thisUser.role))}
               <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-900">{thisUser.username}</td>

@@ -3,20 +3,30 @@ import Modal from "../components/Modal";
 import React, { useState } from "react";
 import { useAuth } from "../utilities/AuthContext";
 import DriverList from "../components/drivers/DriverList";
+import { createDriver } from "../apis/driver";
 
 const Drivers = () => {
     const [showNewDriverModal, setShowNewDriverModal] = useState(false);
 
-    const user = useAuth();
+    const { user, jwt, isAuthenticated } = useAuth();
 
-    if (!user || !user.isAuthenticated) {
+    if (!user || !isAuthenticated) {
         return <div className="text-center text-red-500">You must be logged in to manage drivers.</div>;
     }
 
     const handleNewDriverSubmit = async (driverData) => {
         setShowNewDriverModal(false);
         console.log("New driver data submitted:", driverData);
-        
+        const [data, error] = await createDriver(jwt, driverData);
+        if (error) {
+            console.error("Error creating driver:", error);
+            return;
+        }
+        console.log("Driver created successfully:", data);
+        if (window && window.location) {
+            // Simple way to refresh the DriverList by reloading the page
+            window.location.reload();
+        }
     }
 
     return (
