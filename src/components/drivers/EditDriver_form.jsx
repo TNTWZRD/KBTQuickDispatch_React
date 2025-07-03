@@ -80,7 +80,7 @@ const EditDriverForm = ({driver: formDriver, onSubmit}) => {
                 </label>
             </div>
             <button type="submit" className="p-3 rounded bg-yellow-400 hover:bg-yellow-600">Save Changes</button>
-            {user_h.isManager() && (
+            {(user_h.isManager() && !formDriver.user_id ) && (
                 <button type="button" className="p-3 rounded bg-red-400 hover:bg-red-600 ml-4" onClick={() => onSubmit({ ...formData, delete: true, driver_id: formDriver.id })}>
                     Delete Driver
                 </button>
