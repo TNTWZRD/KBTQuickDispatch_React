@@ -13,6 +13,7 @@ import { AuthProvider } from './utilities/AuthContext.jsx'
 import Admin from './pages/Admin.jsx'
 import DashboardLayout from './components/DashboardLayout.jsx'
 import Drivers from './pages/Drivers.jsx'
+import Vehicles from './pages/Vehicles.jsx'
 
  const router = createBrowserRouter([
   {
@@ -122,7 +123,7 @@ import Drivers from './pages/Drivers.jsx'
     element: (
       <ProtectedRoute>
         <DashboardLayout>
-          <h1 className="text-3xl font-bold text-gray-900">Vehicles</h1>
+          <Vehicles />
         </DashboardLayout>
       </ProtectedRoute>
     ),
