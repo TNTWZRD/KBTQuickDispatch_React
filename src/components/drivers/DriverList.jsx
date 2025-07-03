@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getDrivers } from "../../apis/driver";
+import { deleteDriver, getDrivers, updateDriver } from "../../apis/driver";
 import { useAuth } from "../../utilities/AuthContext";
 import EditDriverForm from "./EditDriver_form";
 import Modal from "../Modal";
@@ -20,11 +20,14 @@ const DriverList = () => {
             setDrivers(null);
             return;
         }
+        console.log("Fetched drivers:", data);
         setDrivers(data);
     }
 
-    const [showEditDriverModel, setShowEditDriverModel] = useState(false);
-    const [editDriverObject, setEditDriverObject] = useState(null);
+    const [driverEditModel, setDriverEditModel] = useState({
+        show: false,
+        driver: null
+    });
 
     useEffect(() => {
         fetchDrivers();
@@ -32,16 +35,36 @@ const DriverList = () => {
     }, []);
 
     const handleEditDriver = async (driver) => {
-        setEditDriverObject(null);
-        setShowEditDriverModel(false);
-        console.log("Editing driver:", driver);
+        setDriverEditModel({
+            show: false,
+            driver: null
+        });
+        if (driver.delete) {
+            const [data, error] = await deleteDriver(jwt, driver.driver_id);
+            if (error) {
+                console.error("Error deleting driver:", error);
+                return;
+            }
+            console.log("Driver deleted successfully:", data);
+            // Optionally, you can refetch the drivers or update the state directly
+            fetchDrivers();
+            return;
+        }
+        const [data, error] = await updateDriver(jwt, driverEditModel.driver.id, driver);
+        if (error) {
+            console.error("Error updating driver:", error);
+            return;
+        }
+        console.log("Driver updated successfully:", data);
+        // Optionally, you can refetch the drivers or update the state directly
+        fetchDrivers();
     }
 
     return (
         <>
-        {showEditDriverModel && (
-            <Modal onClose={() => setShowEditDriverModel(false) } title={`Edit: ${editDriverObject.name}`}>
-                <EditDriverForm driver={editDriverObject} onSubmit={handleEditDriver}/>
+        {(driverEditModel.show) && (
+            <Modal onClose={() => setDriverEditModel({ show: false, driver: null }) } title={`Edit: ${driverEditModel.driver.name}`}>
+                <EditDriverForm driver={driverEditModel.driver} onSubmit={handleEditDriver}/>
                 {/* <h1 className="text-2xl font-bold mb-6">Add New Driver</h1> */}
             </Modal>
         )}
@@ -52,17 +75,18 @@ const DriverList = () => {
                     <tr>
                         <th className="py-2 px-4 border-b">Driver Name</th>
                         <th className="py-2 px-4 border-b">Phone Number</th>
+                        <th className="py-2 px-4 border-b">Avtive?</th>
                     </tr>
                 </thead>
                 <tbody>
                     {drivers ? (
                         drivers.map((driver) => (
                             <tr key={driver.id} onClick={() => {
-                                setEditDriverObject(driver);
-                                setShowEditDriverModel(true);
+                                setDriverEditModel({ show: true, driver: driver})
                             }} className="cursor-pointer hover:bg-gray-100">
                                 <td className="py-2 px-4 border-b">{driver.name}</td>
                                 <td className="py-2 px-4 border-b">{driver.phone_number}</td>
+                                <td className="py-2 px-4 border-b">{driver.status? '✅' : '❌'}</td>
                             </tr>
                         ))
                     ) : (

@@ -4,20 +4,30 @@ import UserHelper from '../../utilities/UserHelper';
 
 const EditDriverForm = ({driver: formDriver, onSubmit}) => {
 
-        // eslint-disable-next-line no-unused-vars
         const { user } = useAuth();
+        const user_h = new UserHelper(user);
     
         const [formData, setFormData] = useState({
             name: formDriver.name || '',
             phone_number: formDriver.phone_number || '',
-            status: formDriver.status || 'Active', // Default to 'Active' if not provided
+            status: formDriver.status, // Default to 'Active' if not provided
         });
+
+        console.log("EditDriverForm initialized with data:", formData);
     
         const handleChange = (e) => {
             const { name, value } = e.target;
             setFormData((prev) => ({
                 ...prev,
                 [name]: value,
+            }));
+        };
+
+        const handleCheckChange = (e) => {
+            const { name, checked } = e.target;
+            setFormData((prev) => ({
+                ...prev,
+                [name]: checked ? 1 : 0, // Convert checkbox to 1 or 0
             }));
         };
     
@@ -58,31 +68,23 @@ const EditDriverForm = ({driver: formDriver, onSubmit}) => {
                 </label>
             </div>
             <div style={{ marginBottom: 12 }}>
-                <label>Status:</label>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
-                    <label>
-                        <input
-                            type="radio"
-                            name="status"
-                            value="Active"
-                            checked={formData.status === "Active"}
-                            onChange={handleChange}
-                        />
-                        Active
-                    </label>
-                    <label>
-                        <input
-                            type="radio"
-                            name="status"
-                            value="Inactive"
-                            checked={formData.status === "Inactive"}
-                            onChange={handleChange}
-                        />
-                        Inactive
-                    </label>
-                </div>
+                <label>
+                    <input
+                        type="checkbox"
+                        name="status"
+                        checked={(formData.status == 1) ? true : false}
+                        onChange={handleCheckChange}
+                        style={{ marginRight: 8 }}
+                    />
+                    Active
+                </label>
             </div>
             <button type="submit" className="p-3 rounded bg-yellow-400 hover:bg-yellow-600">Save Changes</button>
+            {user_h.isManager() && (
+                <button type="button" className="p-3 rounded bg-red-400 hover:bg-red-600 ml-4" onClick={() => onSubmit({ ...formData, delete: true, driver_id: formDriver.id })}>
+                    Delete Driver
+                </button>
+            )}
         </form>
     );
 }
