@@ -17,7 +17,7 @@ const EditVehicleForm = ({ vehicle: formVehicle, onSubmit, onDelete }) => {
         vin: formVehicle.vin || '',
         description: formVehicle.description || '',
         short_notes: formVehicle.short_notes || '',
-        status: formVehicle.status || 1
+        status: formVehicle.status
     });
 
     const handleChange = (e) => {
