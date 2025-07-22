@@ -17,6 +17,7 @@
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^7.1.2",
     "@mui/material": "^7.1.2",
+    "@rails/actioncable": "^8.0.200",
     "@tailwindcss/vite": "^4.1.10",
     "autoprefixer": "^10.4.21",
     "prop-types": "^15.8.1",

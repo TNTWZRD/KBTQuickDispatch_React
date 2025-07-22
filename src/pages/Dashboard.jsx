@@ -15,7 +15,7 @@ const Dashboard = () => {
           // Admin Dashboard
         if ((user.roles?.includes('admin') || user.roles?.includes('superadmin'))) {
             statCards.push(
-                <div className="bg-white p-2 rounded-lg shadow">
+                <div key="admin-dashboard" className="bg-white p-2 rounded-lg shadow">
                     <span className="fs-3 text-bold" >Admin</span>
                     <StatCard key="total-users" title="Total Users" value="0" color="blue" />,
                     <StatCard key="active-drivers" title="Active Drivers" value="0" color="green" />,
@@ -28,7 +28,7 @@ const Dashboard = () => {
         // Manager Dashboard
         if ((user.roles?.includes('manager'))) {
             statCards.push(
-                <div className="bg-white p-2 rounded-lg shadow">
+                <div key="manager-dashboard" className="bg-white p-2 rounded-lg shadow">
                     <span className="fs-3 text-bold" >Manager</span>
                     <StatCard key="active-drivers" title="Active Drivers" value="0" color="green" />,
                     <StatCard key="todays-calls" title="Today's Calls" value="0" color="blue" />,
@@ -41,7 +41,7 @@ const Dashboard = () => {
         // Dispatcher Dashboard
         if ((user.roles?.includes('dispatcher'))) {
             statCards.push(
-                <div className="bg-white p-2 rounded-lg shadow">
+                <div key="dispatcher-dashboard" className="bg-white p-2 rounded-lg shadow">
                     <span className="fs-3 text-bold" >Dispatcher</span>
                     <StatCard key="pending-calls" title="Pending Calls" value="0" color="yellow" />,
                     <StatCard key="active-calls" title="Active Calls" value="0" color="green" />,
@@ -54,7 +54,7 @@ const Dashboard = () => {
         // Driver Dashboard
         if (user.roles?.includes('driver')) {
             statCards.push(
-                <div className="bg-white p-2 rounded-lg shadow">
+                <div key="driver-dashboard" className="bg-white p-2 rounded-lg shadow">
                     <span className="fs-3 text-bold" >Driver</span>
                     <StatCard key="shift-status" title="Shift Status" value="Off Duty" color="red" />,
                     <StatCard key="todays-calls" title="Today's Calls" value="0" color="blue" />,
@@ -131,14 +131,12 @@ const StatCard = ({ title, value, color }) => {
 const QuickActions = ({ role }) => {
     const getActions = () => {
         if (!role) return [];
-        console.log('getActions', role);
         if (Array.isArray(role)) {
             const roles = role.map(r => r.toLowerCase());
             const actions = [];
             roles.forEach(_r => {
                 actions.push(...getRoleActions(_r))
             });
-            console.log('Combined Actions:', actions);
             return actions;
         }
         return getRoleActions(role);
