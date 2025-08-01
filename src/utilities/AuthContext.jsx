@@ -395,6 +395,7 @@ export function AuthProvider({ children }) {
         logout,
         deleteAccount,
         updateUser,
+        userStatus,
         // ActionCable methods
         cable: {
             connected: cableConnected,

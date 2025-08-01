@@ -5,7 +5,7 @@ import { useAuth } from './utilities/AuthContext';
 import { Link } from 'react-router-dom';
 
 function App() {
-  const { isAuthenticated, user, loading } = useAuth();
+  const { isAuthenticated, user, loading, userStatus } = useAuth();
 
   if (loading) {
     return (
@@ -28,7 +28,7 @@ function App() {
         {isAuthenticated ? (
           <div className="text-center">
             <h1 className="text-3xl font-bold underline mb-4">
-              Welcome back, {user?.name || user?.username}!
+              Welcome back, {user?.name || user?.username}!, {userStatus === 'online' ? 'You are online' : 'You are offline'}
             </h1>
             <p className="text-lg text-gray-600 mb-6">
               You are successfully logged in to QuickDispatch.
