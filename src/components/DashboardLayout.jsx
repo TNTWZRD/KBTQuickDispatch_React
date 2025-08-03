@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useAuth } from '../utilities/AuthContext';
+import { useAuthContext } from '../utilities/AuthContext';
 import UserHelper from '../utilities/UserHelper';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
 const DashboardLayout = ({ children }) => {
-    const { user, logout } = useAuth();
+    const { user, logout } = useAuthContext();
     const location = useLocation();
     
     const user_h = new UserHelper(user);

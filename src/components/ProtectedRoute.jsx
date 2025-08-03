@@ -1,9 +1,9 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../utilities/AuthContext';
+import { useAuthContext } from '../utilities/AuthContext';
 
 const ProtectedRoute = ({ children, requiredRole = null }) => {
-    const { isAuthenticated, user, loading } = useAuth();    if (loading) {
+    const { isAuthenticated, user, loading } = useAuthContext();    if (loading) {
         return (
             <div className="flex justify-center items-center min-h-screen bg-gray-50">
                 <div className="bg-white shadow rounded-lg">

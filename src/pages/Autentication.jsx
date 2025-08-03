@@ -5,7 +5,7 @@ import { validateEmail, validatePassword, validateUsername, validatePhoneNumber 
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import PropTypes from 'prop-types';
-import { useAuth } from '../utilities/AuthContext';
+import { useAuthContext } from '../utilities/AuthContext';
 
 const DEBUG = true
 
@@ -22,7 +22,7 @@ const intialErrorsState = {
 const Authentication = ({pageType}) => {
 
     const navigate = useNavigate();
-    const { isAuthenticated, login, register, loading } = useAuth();
+    const { isAuthenticated, login, register, loading } = useAuthContext();
 
     // Redirect if already authenticated
     useEffect(() => {
@@ -70,7 +70,7 @@ const Authentication = ({pageType}) => {
     const validateForm = () => {
         let isValid = true;
         const newErrors = {...intialErrorsState};
-        if (pageType === PageType.REGISTER) {
+        if (pageType === PAGETYPE.REGISTER) {
             if (!validateUsername(username)) {
                 newErrors.username = 'Username must be alphanumeric and can include underscores, 3-16 characters long';
                 isValid = false;
@@ -91,7 +91,7 @@ const Authentication = ({pageType}) => {
                 newErrors.password = 'Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character';
                 isValid = false;
             }
-        } else if (pageType === PageType.LOGIN) {
+        } else if (pageType === PAGETYPE.LOGIN) {
             if (!validateEmail(loginField) && !validateUsername(loginField)) {
                 newErrors.login = 'Login must be a valid email or username';
                 isValid = false;
@@ -115,9 +115,9 @@ const Authentication = ({pageType}) => {
         }
 
         try {
-            if (pageType === PageType.LOGIN) {
+            if (pageType === PAGETYPE.LOGIN) {
                 [success, error] = await login(loginField, password);
-            } else if (pageType === PageType.REGISTER) {
+            } else if (pageType === PAGETYPE.REGISTER) {
                 const userData = {user: {
                     username, 
                     email, 
@@ -151,16 +151,16 @@ const Authentication = ({pageType}) => {
             {errors.api && <p className='text-sm text-red-600 border border-red rounded p-2' name="apiError">{errors.api}</p>}
             
             <h3 className="text-2xl font-bold">
-                {(pageType === PageType.LOGIN ) ? 'Login to your account' : 'Register for a new account'}
+                {(pageType === PAGETYPE.LOGIN ) ? 'Login to your account' : 'Register for a new account'}
             </h3>
             <span className="mt-4 text-sm text-gray-600">
-                { pageType === PageType.LOGIN && <p>Dont have an account? <Link to='/register' className='text-black-600 underline'>Register </Link> </p>}
-                { pageType === PageType.REGISTER && <p>Already Have an Account? <Link to='/login' className='text-black-600 underline'>Login</Link> </p>}
+                { pageType === PAGETYPE.LOGIN && <p>Dont have an account? <Link to='/register' className='text-black-600 underline'>Register </Link> </p>}
+                { pageType === PAGETYPE.REGISTER && <p>Already Have an Account? <Link to='/login' className='text-black-600 underline'>Login</Link> </p>}
             </span>
 
 
             <form onSubmit={handleSubmit} className="mt-10 max-w-96 flex flex-col gap-8">
-            {(pageType === PageType.LOGIN) ? 
+            {(pageType === PAGETYPE.LOGIN) ? 
                 <div className="flex flex-col">
                     <input 
                         name="login"
@@ -240,7 +240,7 @@ const Authentication = ({pageType}) => {
                         : 'bg-indigo-600 hover:bg-indigo-700'}`}>
                     {loading 
                         ? 'Processing...' 
-                        : (pageType === PageType.LOGIN) ? 'Login' : 'Register'}
+                        : (pageType === PAGETYPE.LOGIN) ? 'Login' : 'Register'}
                 </button>
 
             </form>
@@ -252,13 +252,13 @@ const Authentication = ({pageType}) => {
 }
 
 // ENUM For Authentication Page Types
-export const PageType = Object.freeze({
+export const PAGETYPE = Object.freeze({
   LOGIN: 0,
   REGISTER: 1,
 });
 
 Authentication.propTypes = {
-    pageType: PropTypes.oneOf(Object.values(PageType)).isRequired,
+    pageType: PropTypes.oneOf(Object.values(PAGETYPE)).isRequired,
     };
 
 export default Authentication;

@@ -1,9 +1,9 @@
 import React from 'react';
-import { useAuth } from '../utilities/AuthContext';
+import { useAuthContext } from '../utilities/AuthContext';
 
 const Admin = () => {
 
-  const { user } = useAuth();
+  const { user } = useAuthContext();
   if (!user) {
     return <div>Please log in to access settings.</div>;
   }

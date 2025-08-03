@@ -1,10 +1,10 @@
 import React from 'react';
-import { useAuth } from '../utilities/AuthContext';
+import { useAuthContext } from '../utilities/AuthContext';
 import DashboardLayout from '../components/DashboardLayout';
 import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
-    const { user } = useAuth();
+    const { user } = useAuthContext();
 
     const getDashboardContent = () => {
         if (!user) return null;

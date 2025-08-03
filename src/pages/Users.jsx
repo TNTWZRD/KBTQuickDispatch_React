@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useAuth } from '../utilities/AuthContext';
+import { useAuthContext } from '../utilities/AuthContext';
 import UserHelper from '../utilities/UserHelper';
 import { getRoles } from '../utilities/userUtils';
 import { getUsers } from '../apis/management';
@@ -9,7 +9,7 @@ import { deleteUser, updateUser } from '../apis/user';
 
 const Users = () => {
 
-  const { user, isAuthenticated, jwt } = useAuth();
+  const { user, isAuthenticated, jwt } = useAuthContext();
   const user_h = new UserHelper(user);
   const [users, setUsers] = useState([]);
 

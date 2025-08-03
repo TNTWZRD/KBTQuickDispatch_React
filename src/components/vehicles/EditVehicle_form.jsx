@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../utilities/AuthContext';
+import { useAuthContext } from '../../utilities/AuthContext';
 
 const EditVehicleForm = ({ vehicle: formVehicle, onSubmit, onDelete }) => {
 
-    const { user } = useAuth();
+    const { user } = useAuthContext();
 
     console.log("EditVehicleForm: formVehicle:", formVehicle);
 

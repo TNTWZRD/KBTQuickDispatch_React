@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../utilities/AuthContext';
+import { useAuthContext } from '../utilities/AuthContext';
 import { userProfileAPI } from '../apis/userProfile';
 import DashboardLayout from '../components/DashboardLayout';
 
@@ -159,7 +159,7 @@ const PasswordForm = ({ passwordData, setPasswordData, handlePasswordSubmit, loa
 );
 
 const UserProfile = () => {
-    const { user, updateUser, deleteAccount } = useAuth();
+    const { user, updateUser, deleteAccount } = useAuthContext();
     const [activeTab, setActiveTab] = useState('profile');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState({ type: '', text: '' });

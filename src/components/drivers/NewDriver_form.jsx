@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../utilities/AuthContext';
+import { useAuthContext } from '../../utilities/AuthContext';
 import UserHelper from '../../utilities/UserHelper';
 
 const NewDriverForm = ({onSubmit}) => {
 
         // eslint-disable-next-line no-unused-vars
-        const { user } = useAuth();
+        const { user } = useAuthContext();
     
         const [formData, setFormData] = useState({
             name: '',

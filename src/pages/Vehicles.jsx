@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '../utilities/AuthContext';
+import { useAuthContext } from '../utilities/AuthContext';
 import { getVehicles, updateVehicle, deleteVehicle, addVehicle } from '../apis/vehicle.js';
 import UserHelper from '../utilities/UserHelper';
 import Modal from '../components/Modal';
@@ -7,7 +7,7 @@ import EditVehicleForm from '../components/vehicles/EditVehicle_form.jsx';
 import NewVehicleForm from '../components/vehicles/NewVehicle_form.jsx';
 
 const Vehicles = () => {
-  const { user, isAuthenticated, jwt } = useAuth();
+  const { user, isAuthenticated, jwt } = useAuthContext();
   const user_h = new UserHelper(user);
   const [vehicles, setVehicles] = useState([]);
 

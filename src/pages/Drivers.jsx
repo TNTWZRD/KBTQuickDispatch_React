@@ -1,14 +1,14 @@
 import NewDriverForm from "../components/drivers/NewDriver_form";
 import Modal from "../components/Modal";
 import React, { useState } from "react";
-import { useAuth } from "../utilities/AuthContext";
+import { useAuthContext } from "../utilities/AuthContext";
 import DriverList from "../components/drivers/DriverList";
 import { createDriver } from "../apis/driver";
 
 const Drivers = () => {
     const [showNewDriverModal, setShowNewDriverModal] = useState(false);
 
-    const { user, jwt, isAuthenticated } = useAuth();
+    const { user, jwt, isAuthenticated } = useAuthContext();
 
     if (!user || !isAuthenticated) {
         return <div className="text-center text-red-500">You must be logged in to manage drivers.</div>;

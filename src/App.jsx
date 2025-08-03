@@ -1,11 +1,11 @@
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import { useAuth } from './utilities/AuthContext';
+import { useAuthContext } from './utilities/AuthContext';
 import { Link } from 'react-router-dom';
 
 function App() {
-  const { isAuthenticated, user, loading, userStatus } = useAuth();
+  const { isAuthenticated, user, loading, userStatus } = useAuthContext();
 
   if (loading) {
     return (
