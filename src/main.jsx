@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { createRoot } from 'react-dom/client'
 import { StrictMode } from 'react'
 import App from './App.jsx'
-import Authentication, { PageType } from './pages/Autentication.jsx'
+import Authentication, { PAGETYPE } from './pages/Autentication.jsx'
 import UserProfile from './pages/UserProfile.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import Users from './pages/Users.jsx'
@@ -22,11 +22,11 @@ import Vehicles from './pages/Vehicles.jsx'
   },
   {
     path: '/login',
-    element: <Authentication pageType={PageType.LOGIN} />,
+    element: <Authentication pageType={PAGETYPE.LOGIN} />,
   },
   {
     path: '/register',
-    element: <Authentication pageType={PageType.REGISTER} />,
+    element: <Authentication pageType={PAGETYPE.REGISTER} />,
   },
   {
     path: '/dashboard',

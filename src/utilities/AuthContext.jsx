@@ -3,7 +3,6 @@ import { useCookies } from 'react-cookie';
 import { UserAuth } from '../apis/authentication';
 import { DOMAIN } from '../apis/config';
 import { createConsumer } from '@rails/actioncable';
-import { WebSocketLocation } from './websocketLocation';
 
 const AuthContext = createContext();
 
@@ -220,14 +219,6 @@ export function AuthProvider({ children }) {
 
         setSubscriptions(prev => new Map(prev.set('StatusChannel', statusChannelRef.current)));
     }, [cableRef, statusChannelRef, wsAuthenticated, handleStatusUpdate]);
-
-    useEffect(() => {
-        if (isAuthenticated && wsAuthenticated && cableConnected){
-            const location = new WebSocketLocation();
-            location.updateLocation();
-            console.log('WebSocketLocation initialized:', location.getLocationData());
-        }
-    }, [isAuthenticated, cableConnected, wsAuthenticated]);
 
     useEffect(() => {
         if (cableRef.current && !statusChannelRef.current) {
