@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuthContext } from '../utilities/AuthContext';
 import UserHelper from '../utilities/UserHelper';
+import { WebSocketLocation } from '../utilities/websocketLocation';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
 const DashboardLayout = ({ children }) => {
-    const { user, logout } = useAuthContext();
+    const { user, logout, cable } = useAuthContext();
     const location = useLocation();
+
+    
+    useEffect(() => {
+        const location = new WebSocketLocation();
+        location.updateLocation();
+        cable && cable.authenticated && location.setCable(cable); // Assuming you want to set the cable later
+        console.log('WebSocketLocation initialized:', location.getLocationData());
+    }, [cable]);
     
     const user_h = new UserHelper(user);
 
