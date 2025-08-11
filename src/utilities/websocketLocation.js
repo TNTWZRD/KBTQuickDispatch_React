@@ -70,15 +70,33 @@ export class WebSocketLocation {
       };
   }
 
+  sendLocationUpdate() {
+    if (this.cable && this.cable.authenticated) {
+      this.cable.sendToChannel('LocationChannel', 'location_update', this.getLocationData());
+    } else {
+      console.warn('Cable not authenticated, cannot send location update');
+    }
+  }
+
+  setUpdateTimer(){
+    setInterval(() => {
+      this.updateLocation();
+      if (this.cable && this.cable.authenticated) {
+        this.sendLocationUpdate();
+      }
+    }, 60 * 1000); // Update every minute
+  }
+
   setCable(cable) {
     this.cable = cable;
     this.cable && this.cable.subscribeToChannel('LocationChannel', [],{
       connected: () => {
         console.log('WebSocketLocation connected to Location channel');
-        this.cable.sendToChannel('LocationChannel', 'location_update', this.getLocationData());
+        this.sendLocationUpdate();
+        this.setUpdateTimer();
       },
       received: (data) => {
-        data.update && this.updateLocation() && this.cable.sendToChannel('LocationChannel', 'location_update', this.getLocationData());
+        data.update && this.updateLocation() && this.sendLocationUpdate();
         console.log('WebSocketLocation received data:', data);
       }
     })
